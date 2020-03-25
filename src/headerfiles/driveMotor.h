@@ -1,0 +1,2 @@
+void moveForward();
+void stopMotors();

@@ -27,13 +27,11 @@ if(WiFi.status() != WL_CONNECTED){
 void httpRequest(const JsonDocument& _doc) {
   len = measureJson(_doc);
   String data_length = String(len);
-  
   // Close any connection before sending a new request
   client.stop();
-  // String data_length = String(strlen(data)+1); //Compute the data buffer length
   // POST data to ThingSpeak
   if (client.connect(server, 80)) {
-    client.println("POST /channels/1024049/bulk_update.json HTTP/1.1"); // Replace YOUR-CHANNEL-ID with your ThingSpeak channel ID
+    client.println("POST /channels/1024049/bulk_update.json HTTP/1.1"); // 
     client.println("Host: api.thingspeak.com");
     client.println("Content-Type: application/json");
     client.println("Content-Length: " +len);
@@ -43,9 +41,10 @@ void httpRequest(const JsonDocument& _doc) {
   else {
     Serial.println("Failure: Failed to connect to ThingSpeak");
   }
-  delay(50); //Wait to receive the response
+  //Wait to receive the response
+  delay(50);
   client.parseFloat();
   String resp = String(client.parseInt());
-  Serial.println("Response code:"+resp); // Print the response code. 202 indicates that the server has accepted the response
+  Serial.println("Response code:"+resp); 
 }
 

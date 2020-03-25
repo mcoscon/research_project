@@ -9,7 +9,7 @@ static StaticJsonDocument<capacity> doc;
 */
 JsonArray updates = doc.createNestedArray("updates");
 
-// Create JsonObject, only runs the first time. Todo: Set flag in main to run once 
+
 void createJSON(int flag, double accX, double accY, double accZ, double gyroX, double gyroY, double gyroZ){
     if(flag == 1){
     doc["write_api_key"] = "9W6IUZI9EOGWWAVY";
