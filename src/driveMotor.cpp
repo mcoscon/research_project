@@ -1,6 +1,5 @@
 #include "../src/headerfiles/L298N.h"
-
-
+#include "headerfiles/driveMotor.h"
 //pin definition
 #define EN1 15
 #define IN1 19
@@ -11,7 +10,7 @@
 
 L298N motor1(EN1, IN1, IN2);
 L298N motor2(EN2, IN3, IN4);
-uint8_t speed = 225;
+uint8_t speed = 150;
 
 void moveForward()
 {
@@ -19,7 +18,6 @@ void moveForward()
     motor2.setSpeed(speed);
     motor1.forward();
     motor2.forward();
-    Serial.print(speed);
 }
 
 void stopMotors(){

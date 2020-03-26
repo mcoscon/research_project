@@ -31,7 +31,7 @@ void httpRequest(const JsonDocument& _doc) {
   client.stop();
   // POST data to ThingSpeak
   if (client.connect(server, 80)) {
-    client.println("POST /channels/1024049/bulk_update.json HTTP/1.1"); // 
+    client.println("POST /channels/1026787/bulk_update.json HTTP/1.1"); // 
     client.println("Host: api.thingspeak.com");
     client.println("Content-Type: application/json");
     client.println("Content-Length: " +len);
@@ -42,7 +42,7 @@ void httpRequest(const JsonDocument& _doc) {
     Serial.println("Failure: Failed to connect to ThingSpeak");
   }
   //Wait to receive the response
-  delay(50);
+  //delay(50);
   client.parseFloat();
   String resp = String(client.parseInt());
   Serial.println("Response code:"+resp); 
