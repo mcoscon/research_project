@@ -2,7 +2,7 @@
 #include <Arduino.h>
 #include <analogWrite.h>
 #include "../src/headerfiles/driveMotor.h"
-#include "../src/headerfiles/thingSpeak.h"
+//#include "../src/headerfiles/thingSpeak.h"
 #include "../src/headerfiles/json.h"
 #include <Ticker.h>
 #include "../src/headerfiles/mpu6050.hpp"
@@ -16,8 +16,11 @@ void sendData();
 void setup() {
   Serial.begin(115200);
   connectWiFi();
+  /*
+  connectWiFi();
   setupMPU();
   moveForward();
+  */
   delay(1000);
   createJSON(0,0,0,0,0,0);
   delay(2000);
@@ -25,7 +28,7 @@ void setup() {
 }
 
 void loop() {
-  mpu6050.update();
+  //mpu6050.update();
   /*
   addJSON(mpu6050.getAccX(), mpu6050.getAccX(),
   mpu6050.getAccX(), mpu6050.getAccX(), mpu6050.getAccX(), 
@@ -33,9 +36,12 @@ void loop() {
   */
   //Serial.print(mpu6050.getAccX());
   //delay(1000);
+  /*
   addJSON(mpu6050.getAccX(),mpu6050.getAccY(), mpu6050.getAccZ(),
     mpu6050.getGyroX(), mpu6050.getGyroY(), mpu6050.getGyroZ());
-  httpRequest(doc);
+    */
+  Serial.println("Hello");
+  httpRequest();
   delay(15000);
 }
 
@@ -52,7 +58,7 @@ void getData() {
 void sendData(){
   if(millis()-timer2 > 20000)
   {
-    httpRequest(doc);
+    httpRequest();
      //Serial.print(mpu6050.getAccX());
      timer2 = millis();
   }
