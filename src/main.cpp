@@ -7,11 +7,13 @@
 #include <Ticker.h>
 #include "../src/headerfiles/mpu6050.hpp"
 
-uint16_t timer1 = 0;
-uint16_t timer2 = 0;
-uint16_t milliTimer = 0;
-void getData();
-void sendData();
+long lastConnectionTime = 15L * 1000L; // Track the last connection time
+unsigned long lastUpdateTime = 0; // Track the last update time
+const long postingInterval = 6L * 1000L; // Post data every 15 minutes
+const unsigned long updateInterval = 0.02L * 1000L; // Update once every 0.2 second
+unsigned long deltaT;
+
+void sendToThingSpeak(void);
 
 void setup() {
   Serial.begin(115200);
@@ -19,47 +21,21 @@ void setup() {
   /*
   connectWiFi();
   setupMPU();
-  moveForward();
   */
-  delay(1000);
+  setupMPU();
+  Serial.println("start");
+  moveForward();
   createJSON(0,0,0,0,0,0);
-  delay(2000);
-
 }
 
 void loop() {
-  //mpu6050.update();
-  /*
-  addJSON(mpu6050.getAccX(), mpu6050.getAccX(),
-  mpu6050.getAccX(), mpu6050.getAccX(), mpu6050.getAccX(), 
-  mpu6050.getAccX());
-  */
-  //Serial.print(mpu6050.getAccX());
-  //delay(1000);
-  /*
-  addJSON(mpu6050.getAccX(),mpu6050.getAccY(), mpu6050.getAccZ(),
-    mpu6050.getGyroX(), mpu6050.getGyroY(), mpu6050.getGyroZ());
-    */
-  Serial.println("Hello");
-  httpRequest();
-  delay(15000);
-}
+  mpu6050.update();
+   if (millis() - lastUpdateTime >=  updateInterval) {
+     deltaT = (millis() - lastUpdateTime)/1000;
+     addJSON(deltaT, mpu6050.getAccX(),mpu6050.getAccY(), mpu6050.getAccZ(),
+      mpu6050.getGyroX(), mpu6050.getGyroY(), mpu6050.getGyroZ());
+     httpRequest();
+     lastUpdateTime = millis(); // Update the last update time
+  }
+ }
 
-void getData() {
-  if(millis()-timer1 > 2000)
-  {
-    Serial.print(mpu6050.getAccX());
-    addJSON(mpu6050.getAccX(),mpu6050.getAccY(), mpu6050.getAccZ(),
-    mpu6050.getGyroX(), mpu6050.getGyroY(), mpu6050.getGyroZ());
-    timer1 = millis();
-  }
-  }
-
-void sendData(){
-  if(millis()-timer2 > 20000)
-  {
-    httpRequest();
-     //Serial.print(mpu6050.getAccX());
-     timer2 = millis();
-  }
-}

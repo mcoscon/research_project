@@ -10,7 +10,7 @@
 
 L298N motor1(EN1, IN1, IN2);
 L298N motor2(EN2, IN3, IN4);
-uint8_t speed = 150;
+uint8_t speed = 225;
 
 void moveForward()
 {
